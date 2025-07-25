@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dqt6tdio6jrtl"]
+
+[ext_resource type="Script" uid="uid://ps621xw0hsot" path="res://shader_sync.gd" id="1_2sv0w"]
+[ext_resource type="Shader" uid="uid://cicuisrxq57yo" path="res://shader_sync.gdshader" id="2_4s8r3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_51tg6"]
+shader = ExtResource("2_4s8r3")
+shader_parameter/ext_time = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_euivf"]
+viewport_path = NodePath("Viewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_51pbu"]
+resource_local_to_scene = true
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_euivf")
+
+[sub_resource type="QuadMesh" id="QuadMesh_rpy3v"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_51pbu")
+size = Vector2(0.01, 0.01)
+
+[node name="ShaderSync" type="Node3D"]
+script = ExtResource("1_2sv0w")
+
+[node name="Light" type="DirectionalLight3D" parent="."]
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1)
+
+[node name="Viewport" type="SubViewport" parent="."]
+disable_3d = true
+size = Vector2i(2, 2)
+
+[node name="ColorRect" type="ColorRect" parent="Viewport"]
+material = SubResource("ShaderMaterial_51tg6")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Mesh" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_rpy3v")
